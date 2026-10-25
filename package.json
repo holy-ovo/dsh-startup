@@ -22,7 +22,8 @@
     "splash.html",
     "client.js",
     "cordis.patch.yml",
-    "assets"
+    "assets",
+    "NOTICE.md"
   ],
   "author": "dsh-startup contributors",
   "homepage": "https://github.com/holy-ovo/dsh-startup#readme",
