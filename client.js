@@ -1,0 +1,142 @@
+/* dsh-startup — client half (best-effort enhancement only).
+ *
+ * 这里没有一件事是"必须发生"的：
+ *   - 开屏的消失由 splash.html 里的 dsh-sp-hide 纯 CSS 动画保证；
+ *   - 视频播不出来，就保持只有文字/深度尺的版本；
+ *   - 本脚本抛错，页面照常。
+ */
+(function () {
+  'use strict';
+  if (window.__dshSplashBoot) return;
+  window.__dshSplashBoot = true;
+
+  var root = document.getElementById('dsh-splash');
+  if (!root) return;
+
+  /* ── 1) 角色视频：出场段播到 2.55 秒 → 切到无缝循环段，之后一直动 ── */
+  var video = document.getElementById('dsh-sp-video');
+  var idle = document.getElementById('dsh-sp-idle');
+  var SWITCH_AT = 2.55;      /* 与 idle.webm 的第一帧对齐 */
+  var switched = false;
+
+  if (video) {
+    video.addEventListener('playing', function () {
+      root.classList.add('has-video');
+    }, { once: true });
+    video.addEventListener('error', function () {
+      try { video.remove(); } catch (e) { /* ignore */ }
+      /* 出场段挂了：如果循环段还能播，就直接上循环段 */
+      if (idle) { try { idle.play(); root.classList.add('has-idle'); } catch (e2) {} }
+    }, { once: true });
+    try {
+      var p = video.play();
+      if (p && typeof p.catch === 'function') p.catch(function () {});
+    } catch (e) { /* ignore */ }
+  }
+
+  if (idle) {
+    idle.addEventListener('error', function () {
+      try { idle.remove(); } catch (e) { /* ignore */ }
+      root.classList.remove('has-idle');
+    }, { once: true });
+  }
+
+  function switchToIdle() {
+    if (switched || !idle) return;
+    switched = true;
+    try { idle.currentTime = 0; } catch (e) { /* ignore */ }
+    try {
+      var q = idle.play();
+      if (q && typeof q.catch === 'function') q.catch(function () {});
+    } catch (e) { /* ignore */ }
+    root.classList.add('has-idle');
+    /* 出场段继续播完（已经不可见），播完就停掉，省解码 */
+    setTimeout(function () {
+      try { if (video) video.pause(); } catch (e) {}
+    }, 900);
+  }
+
+  if (video) {
+    video.addEventListener('timeupdate', function () {
+      if (!switched && video.currentTime >= SWITCH_AT) switchToIdle();
+    });
+  }
+
+  /* ── 2) 深度尺：节奏跟着文字出现走 ─────────────────────────────── */
+  var fill = document.getElementById('dsh-sp-fill');
+  var box = document.getElementById('dsh-sp-ruler');
+  var num = document.getElementById('dsh-sp-depthnum');
+
+  /* [开始毫秒, 持续毫秒] —— 与 splash.html 里的三行读数一一对应，**必须升序**。
+     4 个落点 = 每个 250m：一行字出现，探测器往下走 250m；字停它也停。
+     （上一版是 7 个乱序落点 + 遇到未到时间就 break，于是 3 秒附近从 2 个落点
+       跳到 6 个 —— 那正是"250 瞬间跳到 750"。） */
+  var DROPS = [
+    [1600, 620],   /* 声呐阵列校准 */
+    [2600, 620],   /* 相位锁定 */
+    [3600, 620],   /* 全部就绪 */
+    [4600, 900]    /* 收尾 */
+  ];
+
+  function smooth(p) { return p * p * (3 - 2 * p); }
+
+  function progress(ms) {
+    var done = 0;
+    for (var i = 0; i < DROPS.length; i++) {
+      var st = DROPS[i][0], du = DROPS[i][1];
+      var local = (ms - st) / du;
+      if (local <= 0) continue;   /* 没到时间：不贡献，但不打断后面 */
+      done += smooth(Math.min(1, local));
+    }
+    return done / DROPS.length;
+  }
+
+  /* 深度带：0–250 光合带 / 250–600 微光带 / 600–1000 深渊带。
+     生物的显隐由这三个 class 决定 —— 探测器下到哪一层，就出现哪一层的生物。 */
+  var lastZone = 0;
+  function setZone(pr) {
+    var z = pr < 0.25 ? 1 : (pr < 0.6 ? 2 : 3);
+    if (z === lastZone) return;
+    lastZone = z;
+    root.classList.remove('zone1', 'zone2', 'zone3');
+    root.classList.add('zone' + z);
+  }
+
+  function paint(pr) {
+    if (fill && box) fill.style.height = (pr * box.clientHeight).toFixed(1) + 'px';
+    if (num) num.textContent = String(Math.round(pr * 1000)).padStart(4, '0');
+    setZone(pr);
+  }
+
+  var t0 = (window.performance && performance.now) ? performance.now() : Date.now();
+  var alive = true;
+
+  function tick() {
+    if (!alive) return;
+    var now = (window.performance && performance.now) ? performance.now() : Date.now();
+    paint(progress(now - t0));
+    requestAnimationFrame(tick);
+  }
+  if (fill && box) requestAnimationFrame(tick);
+
+  /* ── 3) 收尾：CSS 已经会隐藏它，这里只负责把节点摘掉、别留解码器 ── */
+  function teardown() {
+    alive = false;
+    try { if (video) video.pause(); } catch (e) { /* ignore */ }
+    try { if (idle) idle.pause(); } catch (e) { /* ignore */ }
+    try {
+      if (root && root.parentNode) {
+        root.style.transition = 'opacity .4s ease';
+        root.style.opacity = '0';
+        setTimeout(function () {
+          try { if (root && root.parentNode) root.parentNode.removeChild(root); } catch (e) {}
+        }, 450);
+      }
+    } catch (e) { /* ignore */ }
+  }
+
+  setTimeout(teardown, 9500);
+  root.addEventListener('click', function (e) {
+    if (e && e.target && e.target.classList && e.target.classList.contains('sp-skip')) teardown();
+  }, true);
+})();

@@ -1,0 +1,36 @@
+{
+  "name": "dsh-startup",
+  "version": "0.1.0",
+  "description": "DSH 启动开屏：深海下潜 · 深度尺与探测器 · 鲸鱼娘出场视频 · 珊瑚礁与微光粒子",
+  "type": "module",
+  "main": "index.js",
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "cordis",
+    "splash",
+    "startup-animation"
+  ],
+  "license": "MIT",
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "files": [
+    "index.js",
+    "splash.html",
+    "client.js",
+    "cordis.patch.yml",
+    "assets"
+  ],
+  "author": "dsh-startup contributors",
+  "homepage": "https://github.com/holy-ovo/dsh-startup#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/holy-ovo/dsh-startup.git"
+  },
+  "bugs": {
+    "url": "https://github.com/holy-ovo/dsh-startup/issues"
+  }
+}
