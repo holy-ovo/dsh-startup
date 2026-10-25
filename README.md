@@ -38,63 +38,125 @@
 
 ## 安装
 
-### 方式一：一键脚本（推荐，不用 npm）
+> 适用于 **DSH Desktop（Windows）**，不需要 Node、npm 或 git。
+> 前提：DSH Desktop 已经安装过、并且**至少启动过一次**（这样 profile 目录才存在）。
+
+### 第 1 步：把插件文件放到本地
+
+**A. 下载 ZIP（推荐，不用命令行）**
+
+1. 打开 <https://github.com/holy-ovo/dsh-startup>
+2. 点右上角绿色的 **`Code`** → **`Download ZIP`**
+3. 解压到 **`D:\dsh-startup`**（路径尽量短、别带空格）
+
+**B. 用 git（如果你已经装了 git）**
 
 ```powershell
-git clone https://github.com/holy-ovo/dsh-startup.git D:/dev/dsh-startup
-cd D:/dev/dsh-startup
+git clone https://github.com/holy-ovo/dsh-startup.git D:\dsh-startup
+```
+
+解压/克隆完成后，打开这个文件夹，你应该能看到：
+
+```
+install.ps1   uninstall.ps1   package.json   splash.html   client.js   index.js   assets\
+```
+
+> 看不到 `install.ps1` 说明解压层级错了（有的解压工具会多套一层
+> `dsh-startup-master`），进到真正含 `package.json` 的那一层再继续。
+
+### 第 2 步：运行安装脚本
+
+**方法 A：在文件夹里开终端**
+
+1. 打开 `D:\dsh-startup`
+2. 在**地址栏**里输入 `powershell` 回车（会在当前目录开一个 PowerShell 窗口）
+3. 粘贴下面这行并回车：
+
+```powershell
 powershell -ExecutionPolicy Bypass -File .\install.ps1
 ```
 
-脚本会：在 profile 的 `node_modules` 里建目录链接 → 往 `dependencies` 登记 →
-加进 `dsh.profile.bundles`（改之前备份 `package.json.bak-install`）。
-
-**装完必须完全退出 DSH Desktop 再打开**（只刷新页面不够，加载器要重启才读新的 bundles）。
-
-没有 git？点仓库页右上角的 **`Code` → `Download ZIP`**，解压到任意目录，
-在该目录里执行同一句：
+**方法 B：已经在 PowerShell 里**
 
 ```powershell
+cd D:\dsh-startup
 powershell -ExecutionPolicy Bypass -File .\install.ps1
 ```
 
-卸载：`powershell -ExecutionPolicy Bypass -File .\uninstall.ps1`
+看到下面三行就是成功了：
 
-### 方式二：插件市场（npm 发布后才可用）
-
-> **目前尚未发布到 npm**，所以市场里还没有安装按钮 —— 现在请用**方式一**。
-
-包发布到 npm 后，在市场里搜 `@klasjdfkl/dsh-startup` 一键安装。
-
-> 桌面客户端的安装边界只接受 `name@x.y.z` 形式的 npm 包，
-> 所以**只有发布到 npm 之后**市场里才有安装按钮；仅 GitHub 的插件在市场里是“浏览模式”。
-> 这也意味着：**没有 npm 也照样能装**（方式一 / 方式三都绕开了市场），
-> 商城只是“发现渠道”，不是唯一的安装通道。
-
-### 方式三：手动登记（想看清楚每一步时）
-
-```bash
-# 1. 克隆到任意目录
-git clone https://github.com/holy-ovo/dsh-startup.git D:/dev/dsh-startup
-
-# 2. 在 profile 里登记（Windows 示例，路径换成你的）
-#    编辑 %APPDATA%\dsh-desktop\harness\profiles\web\package.json
-#    a) dependencies 增加：  "@klasjdfkl/dsh-startup": "link:D:/dev/dsh-startup"
-#    b) dsh.profile.bundles 增加：  "@klasjdfkl/dsh-startup"
-
-# 3. 建一个目录链接（Windows）
-mkdir "%APPDATA%\dsh-desktop\harness\profiles\web\node_modules\@klasjdfkl"
-mklink /J "%APPDATA%\dsh-desktop\harness\profiles\web\node_modules\@klasjdfkl\dsh-startup" "D:\dev\dsh-startup"
-
-# 4. 重启 DSH 桌面端
+```
+✓ 链接已建立: ...\profiles\web\node_modules\@klasjdfkl\dsh-startup
+✓ 已登记到 package.json（备份: package.json.bak-install）
+装好了。**完全退出 DSH Desktop 再打开**
 ```
 
-安装成功后在 **插件 → 已安装** 里能看到 `@klasjdfkl/dsh-startup 0.1.0`。
+脚本具体做了三件事（都可以撤销）：
+
+| 动作 | 位置 |
+|---|---|
+| 建一个目录链接，指向你解压的这份代码 | `%APPDATA%\dsh-desktop\harness\profiles\web\node_modules\@klasjdfkl\dsh-startup` |
+| 登记依赖 | 同目录 `package.json` 的 `dependencies` |
+| 加入加载列表 | 同目录 `package.json` 的 `dsh.profile.bundles` |
+
+改 `package.json` 之前会自动备份成 `package.json.bak-install`。
+
+### 第 3 步：完全退出 DSH Desktop，再重新打开
+
+**这一步不能跳过**，也不能用“刷新页面”代替。
+
+- 关闭主窗口后，检查右下角**系统托盘**还有没有 DSH 图标 → 右键 → **退出 / Quit**
+- 或者在任务管理器里结束 `DSH Desktop`
+
+原因：插件的清单只在客户端启动时读取一次；只刷新网页不会重新读 `bundles`。
+
+### 第 4 步：确认装上了
+
+两个验证点，任一个成立就说明成功：
+
+1. 打开客户端时**能看到深海下潜的开屏动画**；
+2. **设置 → 插件 → 已安装** 列表里有 `@klasjdfkl/dsh-startup 0.1.0`。
+
+开屏只在启动时出现一次，持续约 9.4 秒；右下角有「跳过」按钮。
 
 ### 卸载
 
-从 `dependencies` 和 `dsh.profile.bundles` 里删掉 `@klasjdfkl/dsh-startup`，删掉
-`node_modules\@holy-ovo\dsh-startup` 链接，重启。
+```powershell
+cd D:\dsh-startup
+powershell -ExecutionPolicy Bypass -File .\uninstall.ps1
+```
+
+然后同样**退出客户端再打开**。
+
+它会删掉那个目录链接，并把包名从 `dependencies` 和 `dsh.profile.bundles` 里移除。
+不会删除你解压的代码目录。
+
+### 常见问题
+
+| 现象 | 原因与解决 |
+|---|---|
+| `无法加载文件 ...install.ps1，因为在此系统上禁止运行脚本` | 少了 `-ExecutionPolicy Bypass`。用文档里完整的命令，不要直接双击 |
+| `找不到 profile 目录：...` | DSH Desktop 从没启动过，或装的不是 Windows 桌面版。先正常打开一次客户端再试 |
+| `在 ... 里找不到 package.json` | 你在错误的目录执行了脚本。`cd` 到含 `package.json` 的那一层 |
+| 脚本成功，但打开客户端没反应 | 没有**完全退出**再打开（只刷新页面无效），或托盘里还有旧进程 |
+| 插件列表里没有它 | 同上；也可能被杀毒软件删掉了目录链接，重跑一次脚本 |
+| 想立刻撤销 | 跑 `uninstall.ps1`，或用 `package.json.bak-install` 覆盖回 `package.json` 再重启 |
+
+### 手动安装（不想运行脚本时）
+
+如果你想自己看清楚每一步，等价于脚本所做的三件事：
+
+```powershell
+# 1. 建目录链接
+mkdir "%APPDATA%\dsh-desktop\harness\profiles\web\node_modules\@klasjdfkl"
+mklink /J "%APPDATA%\dsh-desktop\harness\profiles\web\node_modules\@klasjdfkl\dsh-startup" "D:\dsh-startup"
+
+# 2. 编辑 %APPDATA%\dsh-desktop\harness\profiles\web\package.json
+#    a) dependencies 里加：      "@klasjdfkl/dsh-startup": "link:D:/dsh-startup"
+#    b) dsh.profile.bundles 里加："@klasjdfkl/dsh-startup"
+
+# 3. 退出并重开 DSH Desktop
+```
 
 ---
 
