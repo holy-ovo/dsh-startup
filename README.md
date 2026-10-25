@@ -47,13 +47,25 @@
 
 1. 打开 <https://github.com/holy-ovo/dsh-startup>
 2. 点右上角绿色的 **`Code`** → **`Download ZIP`**
-3. 解压到 **`D:\dsh-startup`**（路径尽量短、别带空格）
+3. 解压到**任何一个长期保留的目录** —— 盘符随意（C/D/E 都行），例如：
+
+   ```
+   D:\dsh-startup
+   E:\apps\dsh-startup
+   C:\Users\<你的用户名>\dsh-startup
+   ```
+
+   > ⚠️ **别放在「下载」「桌面」「Temp」这类会被清理的地方。**
+   > 安装只是建一个指向这份代码的链接，**这份目录被删掉或挪走，插件就失效了**。
+   > 路径里最好别带空格和中文，能少一类麻烦。
 
 **B. 用 git（如果你已经装了 git）**
 
 ```powershell
 git clone https://github.com/holy-ovo/dsh-startup.git D:\dsh-startup
 ```
+
+下面所有命令里的 `D:\dsh-startup` 都只是示例，换成你自己的实际路径即可。
 
 解压/克隆完成后，打开这个文件夹，你应该能看到：
 
@@ -68,7 +80,7 @@ install.ps1   uninstall.ps1   package.json   splash.html   client.js   index.js 
 
 **方法 A：在文件夹里开终端**
 
-1. 打开 `D:\dsh-startup`
+1. 打开你解压出来的那个文件夹（例如 `D:\dsh-startup`）
 2. 在**地址栏**里输入 `powershell` 回车（会在当前目录开一个 PowerShell 窗口）
 3. 粘贴下面这行并回车：
 
@@ -79,7 +91,7 @@ powershell -ExecutionPolicy Bypass -File .\install.ps1
 **方法 B：已经在 PowerShell 里**
 
 ```powershell
-cd D:\dsh-startup
+cd D:\dsh-startup        # 换成你的实际目录
 powershell -ExecutionPolicy Bypass -File .\install.ps1
 ```
 
