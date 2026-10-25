@@ -53,12 +53,16 @@ powershell -ExecutionPolicy Bypass -File .\install.ps1
 
 卸载：`powershell -ExecutionPolicy Bypass -File .\uninstall.ps1`
 
-### 方式二：插件市场
+### 方式二：插件市场（npm 发布后才可用）
+
+> **目前尚未发布到 npm**，所以市场里还没有安装按钮 —— 现在请用**方式一**。
 
 包发布到 npm 后，在市场里搜 `@klasjdfkl/dsh-startup` 一键安装。
 
 > 桌面客户端的安装边界只接受 `name@x.y.z` 形式的 npm 包，
 > 所以**只有发布到 npm 之后**市场里才有安装按钮；仅 GitHub 的插件在市场里是“浏览模式”。
+> 这也意味着：**没有 npm 也照样能装**（方式一 / 方式三都绕开了市场），
+> 商城只是“发现渠道”，不是唯一的安装通道。
 
 ### 方式三：手动登记（想看清楚每一步时）
 
