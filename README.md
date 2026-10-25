@@ -51,6 +51,13 @@ powershell -ExecutionPolicy Bypass -File .\install.ps1
 
 **装完必须完全退出 DSH Desktop 再打开**（只刷新页面不够，加载器要重启才读新的 bundles）。
 
+没有 git？点仓库页右上角的 **`Code` → `Download ZIP`**，解压到任意目录，
+在该目录里执行同一句：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\install.ps1
+```
+
 卸载：`powershell -ExecutionPolicy Bypass -File .\uninstall.ps1`
 
 ### 方式二：插件市场（npm 发布后才可用）
