@@ -38,11 +38,29 @@
 
 ## 安装
 
-### 方式一：插件市场
+### 方式一：一键脚本（推荐，不用 npm）
 
-在 DSH 的插件市场里搜索 `dsh-startup` 安装（发布到 npm 后可用）。
+```powershell
+git clone https://github.com/holy-ovo/dsh-startup.git D:/dev/dsh-startup
+cd D:/dev/dsh-startup
+powershell -ExecutionPolicy Bypass -File .\install.ps1
+```
 
-### 方式二：本地链接（开发用）
+脚本会：在 profile 的 `node_modules` 里建目录链接 → 往 `dependencies` 登记 →
+加进 `dsh.profile.bundles`（改之前备份 `package.json.bak-install`）。
+
+**装完必须完全退出 DSH Desktop 再打开**（只刷新页面不够，加载器要重启才读新的 bundles）。
+
+卸载：`powershell -ExecutionPolicy Bypass -File .\uninstall.ps1`
+
+### 方式二：插件市场
+
+包发布到 npm 后，在市场里搜 `@klasjdfkl/dsh-startup` 一键安装。
+
+> 桌面客户端的安装边界只接受 `name@x.y.z` 形式的 npm 包，
+> 所以**只有发布到 npm 之后**市场里才有安装按钮；仅 GitHub 的插件在市场里是“浏览模式”。
+
+### 方式三：手动登记（想看清楚每一步时）
 
 ```bash
 # 1. 克隆到任意目录
@@ -50,21 +68,22 @@ git clone https://github.com/holy-ovo/dsh-startup.git D:/dev/dsh-startup
 
 # 2. 在 profile 里登记（Windows 示例，路径换成你的）
 #    编辑 %APPDATA%\dsh-desktop\harness\profiles\web\package.json
-#    a) dependencies 增加：  "dsh-startup": "link:D:/dev/dsh-startup"
-#    b) dsh.profile.bundles 增加：  "dsh-startup"
+#    a) dependencies 增加：  "@klasjdfkl/dsh-startup": "link:D:/dev/dsh-startup"
+#    b) dsh.profile.bundles 增加：  "@klasjdfkl/dsh-startup"
 
 # 3. 建一个目录链接（Windows）
-mklink /J "%APPDATA%\dsh-desktop\harness\profiles\web\node_modules\dsh-startup" "D:\dev\dsh-startup"
+mkdir "%APPDATA%\dsh-desktop\harness\profiles\web\node_modules\@klasjdfkl"
+mklink /J "%APPDATA%\dsh-desktop\harness\profiles\web\node_modules\@klasjdfkl\dsh-startup" "D:\dev\dsh-startup"
 
 # 4. 重启 DSH 桌面端
 ```
 
-安装成功后在 **插件 → 已安装** 里能看到 `dsh-startup 0.1.0`。
+安装成功后在 **插件 → 已安装** 里能看到 `@klasjdfkl/dsh-startup 0.1.0`。
 
 ### 卸载
 
-从 `dependencies` 和 `dsh.profile.bundles` 里删掉 `dsh-startup`，删掉
-`node_modules\dsh-startup` 链接，重启。
+从 `dependencies` 和 `dsh.profile.bundles` 里删掉 `@klasjdfkl/dsh-startup`，删掉
+`node_modules\@holy-ovo\dsh-startup` 链接，重启。
 
 ---
 
