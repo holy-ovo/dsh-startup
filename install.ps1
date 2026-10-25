@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
   一键把 dsh-startup 装进 DSH Desktop 的 web profile。
 

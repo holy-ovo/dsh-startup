@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
   从 DSH Desktop 的 web profile 里移除 dsh-startup。
 
