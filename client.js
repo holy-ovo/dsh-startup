@@ -139,7 +139,7 @@
   setTimeout(function () {
     try { root.classList.add('sp-cut'); } catch (e) { /* ignore */ }
   }, 8450);
-  setTimeout(teardown, 9500);
+  setTimeout(teardown, 11200);
   root.addEventListener('click', function (e) {
     if (e && e.target && e.target.classList && e.target.classList.contains('sp-skip')) teardown();
   }, true);
