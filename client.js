@@ -135,6 +135,10 @@
     } catch (e) { /* ignore */ }
   }
 
+  // 收尾：内容一帧切掉，只留场景（参考硬切手法；纯增强，失败不影响自动收尾）
+  setTimeout(function () {
+    try { root.classList.add('sp-cut'); } catch (e) { /* ignore */ }
+  }, 8450);
   setTimeout(teardown, 9500);
   root.addEventListener('click', function (e) {
     if (e && e.target && e.target.classList && e.target.classList.contains('sp-skip')) teardown();

@@ -23,9 +23,46 @@
   --col-b: 52vw;
 }
 @keyframes dsh-sp-hide {
-  0%, 90% { opacity: 1; visibility: visible; }
+  0%, 95% { opacity: 1; visibility: visible; }
   100%    { opacity: 0; visibility: hidden; }
 }
+/* ── 收尾大字标：内容切掉的同时切进来，作为整段的落点 ────────────── */
+#dsh-splash .sp-endmark {
+  position: absolute; left: 0; right: 0; top: 50%; z-index: 5;
+  transform: translateY(-50%);
+  text-align: center; pointer-events: none;
+  font: 600 clamp(26px, 2.9vw, 62px)/1.1 "Source Han Serif SC", "Songti SC", "STSong", "SimSun", serif;
+  letter-spacing: .52em; text-indent: .52em;
+  color: rgba(214, 192, 150, .92);
+  text-shadow: 0 0 60px rgba(200, 169, 106, .28), 0 2px 40px rgba(0, 0, 0, .8);
+  opacity: 0; visibility: hidden;
+}
+#dsh-splash .sp-endmark small {
+  display: block; margin-top: 18px;
+  font: 500 clamp(9px, .72vw, 13px)/1 ui-monospace, Consolas, monospace;
+  letter-spacing: .46em; text-indent: .46em;
+  color: rgba(170, 196, 220, .5);
+}
+#dsh-splash.sp-cut .sp-endmark { opacity: 1; visibility: visible; }
+
+/* ── 收尾：内容一帧切掉，只留场景 ────────────────────────────────────
+   参考「DeepSeek Harness OS 启动」25.83s 的硬切：不是淡出，是切掉。
+   8.72s 由 client.js 加上 .sp-cut，内容（文字/尺/分层标签/鲸鱼线稿/声呐）
+   在一帧内消失，留下海底与她继续呼吸 0.7 秒，再由 dsh-sp-hide 收尾。
+   JS 挂了就退回原来的整体渐隐——这层是增强，不是必需。 */
+#dsh-splash.sp-cut .sp-col,
+#dsh-splash.sp-cut .sp-depth,
+#dsh-splash.sp-cut .sp-strata,
+#dsh-splash.sp-cut .sp-mark,
+#dsh-splash.sp-cut .sp-sonar,
+#dsh-splash.sp-cut .sp-slug,
+#dsh-splash.sp-cut .sp-skip,
+#dsh-splash.sp-cut #dsh-sp-ruler {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  transition: none !important;
+}
+
 /* 时间锚点：一旦打上这个类，之后任何重复注入的副本都会在到达时直接不可见 */
 html.dsh-splash-done #dsh-splash { display: none !important; }
 
@@ -737,6 +774,7 @@ html.dsh-splash-done #dsh-splash { display: none !important; }
     </svg>
   </div>
 
+  <div class="sp-endmark">DEEPSEEK HARNESS<small>BOOT SEQUENCE · 001</small></div>
   <div class="sp-letterbox"><i></i><i></i></div>
   <div class="sp-slug"><b>DEEPSEEK HARNESS</b><span>·</span><span>BOOT SEQUENCE</span><span>·</span><b>001</b></div>
 
