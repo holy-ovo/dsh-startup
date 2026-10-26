@@ -365,6 +365,41 @@ html.dsh-splash-done #dsh-splash { display: none !important; }
 }
 
 
+
+/* ── 数据脊（L2 信息密度）：左栏底部的实时读数 ──────────────────────
+   全部是等宽小字，靠左对齐成一列；数值用 tabular-nums 防跳动。
+   它填的是"信息"而不是"特效"，所以位置压在最左下、颜色压到最暗。 */
+#dsh-splash .sp-hud {
+  position: absolute; left: 6.4vw; top: 13.4vh; z-index: 4;
+  display: flex; flex-direction: column; gap: 7px;
+  font: 500 clamp(8.5px, 0.5vw, 11px)/1 ui-monospace, Consolas, monospace;
+  letter-spacing: .18em; pointer-events: none;
+}
+#dsh-splash .sp-hud .row {
+  display: flex; align-items: baseline; gap: 9px;
+  opacity: 0; transform: translateY(4px);
+  animation: hudIn 520ms cubic-bezier(.16, 1, .3, 1) both;
+}
+#dsh-splash .sp-hud .row:nth-child(1) { animation-delay: 2.75s; }
+#dsh-splash .sp-hud .row:nth-child(2) { animation-delay: 2.95s; }
+#dsh-splash .sp-hud .row:nth-child(3) { animation-delay: 3.15s; }
+#dsh-splash .sp-hud .row:nth-child(4) { animation-delay: 3.35s; }
+@keyframes hudIn { to { opacity: 1; transform: none; } }
+#dsh-splash .sp-hud .row em {
+  font-style: normal; width: 46px; flex: none;
+  color: rgba(150, 186, 216, .42);
+}
+#dsh-splash .sp-hud .row b {
+  font-weight: 600; min-width: 52px; text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: rgba(206, 228, 246, .78);
+}
+#dsh-splash .sp-hud .row i {
+  font-style: normal; color: rgba(150, 186, 216, .34);
+}
+/* 收尾：跟左侧一起淡出（比 .sp-col 晚 40ms，避免同时消失） */
+#dsh-splash .sp-hud { animation: spLeftOut 1000ms cubic-bezier(.42, 0, .3, 1) 7.34s forwards; }
+
 /* ── 生物：按深度出现（深度带由 JS 打 class） ───────────────────────── */
 #dsh-splash .sp-fauna { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
 #dsh-splash .creature { position: absolute; opacity: 0; transition: opacity 640ms ease; }
@@ -775,6 +810,13 @@ html.dsh-splash-done #dsh-splash { display: none !important; }
       <div class="sp-step">相位锁定 · 采样率 96 kHz</div>
       <div class="sp-step">全部就绪 · 开始下潜</div>
     </div>
+  </div>
+
+  <div class="sp-hud">
+    <div class="row"><em>T+</em><b id="dsh-sp-tc">00:00.0</b><i>ELAPSED</i></div>
+    <div class="row"><em>PRESS</em><b id="dsh-sp-press">051.2</b><i>bar</i></div>
+    <div class="row"><em>TEMP</em><b id="dsh-sp-temp">012.6</b><i>°C</i></div>
+    <div class="row"><em>PING</em><b id="dsh-sp-ping">128</b><i>ms</i></div>
   </div>
 
   <div class="sp-depth"><span id="dsh-sp-depthnum">0000</span> M<small>DEPTH / DIVE 001</small></div>

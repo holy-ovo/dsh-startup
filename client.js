@@ -102,9 +102,37 @@
     root.classList.add('zone' + z);
   }
 
-  function paint(pr) {
+  // ── 数据脊：读数随下潜真的在变（压力 = 深度 × 0.1 bar；温度随深度下降）──
+  var hudTc    = document.getElementById('dsh-sp-tc');
+  var hudPress = document.getElementById('dsh-sp-press');
+  var hudTemp  = document.getElementById('dsh-sp-temp');
+  var hudPing  = document.getElementById('dsh-sp-ping');
+  var hudLast  = -999;
+
+  function pad2(n, w) {
+    var s2 = String(n);
+    while (s2.length < w) { s2 = '0' + s2; }
+    return s2;
+  }
+
+  function paintHud(ms, depthM) {
+    if (ms - hudLast < 90) { return; }   // 约 11 次/秒，够读又不浪费帧
+    hudLast = ms;
+    if (hudTc) {
+      hudTc.textContent = pad2(Math.floor(ms / 60000), 2) + ':' +
+                          pad2(Math.floor(ms / 1000) % 60, 2) + '.' +
+                          Math.floor((ms % 1000) / 100);
+    }
+    if (hudPress) { hudPress.textContent = (depthM / 10).toFixed(1); }
+    if (hudTemp)  { hudTemp.textContent  = (18 - depthM * 0.014).toFixed(1); }
+    if (hudPing)  { hudPing.textContent  = String(126 + Math.round((Math.sin(depthM * 0.7) + 1) * 3)); }
+  }
+
+  function paint(pr, ms) {
     if (fill && box) fill.style.height = (pr * box.clientHeight).toFixed(1) + 'px';
-    if (num) num.textContent = String(Math.round(pr * 1000)).padStart(4, '0');
+    var depthM = pr * 1000;
+    if (num) num.textContent = String(Math.round(depthM)).padStart(4, '0');
+    paintHud(ms, depthM);
     setZone(pr);
   }
 
@@ -114,7 +142,7 @@
   function tick() {
     if (!alive) return;
     var now = (window.performance && performance.now) ? performance.now() : Date.now();
-    paint(progress(now - t0));
+    paint(progress(now - t0), now - t0);
     requestAnimationFrame(tick);
   }
   if (fill && box) requestAnimationFrame(tick);
