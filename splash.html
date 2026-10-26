@@ -152,6 +152,75 @@ html.dsh-splash-done #dsh-splash { display: none !important; }
 #dsh-splash.has-idle .sp-idle { opacity: 1; }
 #dsh-splash.has-idle .sp-intro { opacity: 0; transition: opacity 420ms linear; }
 
+/* ── 光的三拍子（L1 电影感打底）─────────────────────────────────────
+   参考「大肥鱼开机动画」：逆光剪影 + 光带扫过 → 脑后爆发 → 正面光稳住。
+   全部在视频层之下（z-index:1），透过抠像的透明区域透出来，像是打在她背后。 */
+#dsh-splash .sp-beam {
+  position: absolute; z-index: 1; pointer-events: none;
+  left: 50%; top: 50%; width: 170vh; height: 2.6vh;
+  margin: -1.3vh 0 0 -85vh;
+  background: linear-gradient(90deg,
+    transparent 0%, rgba(150, 200, 240, 0) 6%,
+    rgba(198, 228, 255, .55) 38%, rgba(246, 252, 255, .95) 50%,
+    rgba(186, 220, 250, .5) 62%, transparent 94%);
+  filter: blur(7px);
+  opacity: 0;
+  transform: rotate(-23deg) translateX(-52vw) scaleY(.55);
+  animation: spBeam 2.4s cubic-bezier(.33, 0, .18, 1) .5s forwards;
+  will-change: transform, opacity;
+}
+@keyframes spBeam {
+  0%   { opacity: 0;  transform: rotate(-23deg) translateX(-52vw) scaleY(.55); }
+  14%  { opacity: .0; transform: rotate(-23deg) translateX(-38vw) scaleY(.7); }
+  26%  { opacity: .9; transform: rotate(-23deg) translateX(-14vw) scaleY(1); }
+  62%  { opacity: .75; transform: rotate(-23deg) translateX(18vw) scaleY(1); }
+  100% { opacity: 0;  transform: rotate(-23deg) translateX(56vw) scaleY(.7); }
+}
+
+/* 第二道：与第一道交叉成 X，延迟 0.42s，亮度略低，反向扫过 */
+#dsh-splash .sp-beam-2 {
+  position: absolute; z-index: 1; pointer-events: none;
+  left: 50%; top: 50%; width: 170vh; height: 2.2vh;
+  margin: -1.1vh 0 0 -85vh;
+  background: linear-gradient(90deg,
+    transparent 0%, rgba(150, 200, 240, 0) 6%,
+    rgba(180, 216, 248, .42) 38%, rgba(236, 247, 255, .8) 50%,
+    rgba(170, 210, 246, .4) 62%, transparent 94%);
+  filter: blur(9px);
+  opacity: 0;
+  transform: rotate(19deg) translateX(48vw) scaleY(.55);
+  animation: spBeam2 2.6s cubic-bezier(.33, 0, .18, 1) .92s forwards;
+  will-change: transform, opacity;
+}
+@keyframes spBeam2 {
+  0%   { opacity: 0;   transform: rotate(19deg) translateX(48vw) scaleY(.55); }
+  16%  { opacity: 0;   transform: rotate(19deg) translateX(34vw) scaleY(.7); }
+  30%  { opacity: .72; transform: rotate(19deg) translateX(10vw) scaleY(1); }
+  64%  { opacity: .55; transform: rotate(19deg) translateX(-16vw) scaleY(1); }
+  100% { opacity: 0;   transform: rotate(19deg) translateX(-52vw) scaleY(.7); }
+}
+
+#dsh-splash .sp-burst {
+  position: absolute; z-index: 1; pointer-events: none;
+  right: 9vw; top: 17vh; width: 62vh; height: 62vh; border-radius: 50%;
+  background: radial-gradient(circle at 50% 46%,
+    rgba(246, 252, 255, .68) 0%,
+    rgba(188, 224, 252, .44) 15%,
+    rgba(126, 182, 238, .22) 34%,
+    rgba(74, 132, 200, .07) 52%,
+    rgba(40, 90, 160, 0) 68%);
+  filter: blur(18px);
+  opacity: 0; transform: scale(.52);
+  animation: spBurst 2.1s cubic-bezier(.16, 1, .3, 1) 2.3s forwards;
+  will-change: transform, opacity;
+}
+@keyframes spBurst {
+  0%   { opacity: 0;   transform: scale(.52); }
+  18%  { opacity: .82; transform: scale(.94); }
+  34%  { opacity: .52; transform: scale(1.03); }
+  100% { opacity: 0;   transform: scale(1.16); }
+}
+
 /* ── 文字栏 ─────────────────────────────────────────────────────────── */
 #dsh-splash .sp-col {
   position: absolute; left: 6.4vw; top: 25vh;
@@ -270,11 +339,6 @@ html.dsh-splash-done #dsh-splash { display: none !important; }
 @keyframes cSwimR { from { transform: translateX(-16vw) scaleX(-1); } to { transform: translateX(104vw) scaleX(-1); } }
 @keyframes cBob { from { transform: translateY(0) rotate(-2deg); } to { transform: translateY(-2.2vh) rotate(2deg); } }
 @keyframes cRise { from { transform: translateY(0); } to { transform: translateY(-4.5vh); } }
-/* 水母伞体脉冲 */
-  transform-origin: 50% 100%;
-  animation: cBell 3.9s ease-in-out infinite;
-}
-@keyframes cBell { 0%, 100% { transform: scale(1, 1); } 50% { transform: scale(.93, 1.07); } }
 
 /* ── 珊瑚礁：海底的"岸线"，不做动物那种解剖结构，所以不怕画不准 ──────── */
 #dsh-splash .sp-coral {
@@ -632,6 +696,10 @@ html.dsh-splash-done #dsh-splash { display: none !important; }
   <div class="sp-vline sp-vline-a"></div>
   <div class="sp-vline sp-vline-b"></div>
 
+
+  <div class="sp-beam"></div>
+  <div class="sp-beam-2"></div>
+  <div class="sp-burst"></div>
 
   <video class="sp-video sp-intro" id="dsh-sp-video" muted playsinline preload="auto" src="/dsh-startup/intro"></video>
   <video class="sp-video sp-idle" id="dsh-sp-idle" muted loop playsinline preload="auto" src="/dsh-startup/idle"></video>
