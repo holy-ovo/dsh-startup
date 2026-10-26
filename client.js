@@ -165,9 +165,39 @@
     } catch (e) { /* ignore */ }
   }
 
-  // 收尾：等左侧淡完（CSS 负责），这里收掉残余（分层标签/声呐/跳过按钮）
+  // 收尾：左侧已由 CSS 淡完，这里切换状态 + 给飞行动画量出起点
+  function launchLetters() {
+    try {
+      var slugTitle = document.querySelector('#dsh-splash .sp-slug > b');
+      var letters   = document.querySelectorAll('#dsh-splash .sp-endmark > b');
+      if (!slugTitle || !letters.length) { return; }
+      var sb = slugTitle.getBoundingClientRect();
+      var n  = letters.length;
+      var chars = slugTitle.textContent.replace(/\s/g, '').length;  // 14? 见下
+      for (var i = 0; i < n; i++) {
+        var el = letters[i];
+        if (!el.textContent.trim()) { continue; }        // 跳过词间空格
+        var rb = el.getBoundingClientRect();
+        if (!rb.width) { continue; }
+        // 该字母在底部那行里的大致横向位置（按序号在整行里均分）
+        var slot = (i + 0.5) / n;
+        var sx = sb.left + sb.width * slot;
+        var sy = sb.top + sb.height * 0.5;
+        var ex = rb.left + rb.width * 0.5;
+        var ey = rb.top + rb.height * 0.5;
+        var sc = Math.max(0.1, sb.height / rb.height);
+        el.style.setProperty('--dx', (sx - ex).toFixed(1) + 'px');
+        el.style.setProperty('--dy', (sy - ey).toFixed(1) + 'px');
+        el.style.setProperty('--s', sc.toFixed(3));
+      }
+    } catch (e) { /* ignore */ }
+  }
+
   setTimeout(function () {
-    try { root.classList.add('sp-cut'); } catch (e) { /* ignore */ }
+    try {
+      root.classList.add('sp-cut');
+      launchLetters();
+    } catch (e) { /* ignore */ }
   }, 8450);
   setTimeout(teardown, 11200);
   root.addEventListener('click', function (e) {

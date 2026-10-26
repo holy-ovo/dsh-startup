@@ -22,7 +22,8 @@
 3.6s  第三行读数：全部就绪 · 开始下潜
 4.6s  深度走到 1000m，探测器停在尺底
 8.45s ★ 硬切：文字、尺、标签、鲸鱼线稿、声呐一帧消失
-8.55s 大字标逐字浮现（15 个字，每字间隔 85ms）
+8.47s 底部 DEEPSEEK HARNESS 逐个起飞（弧线 + 拖影 + 放大），落成大字标
+9.25s 底部补一行 LINK ESTABLISHED
 9.95s 副行 BOOT SEQUENCE · 001 淡入
 10.6s 整体淡出
 11.1s 结束
@@ -220,7 +221,7 @@ export default {
 | 深度带阈值 | `client.js` 的 `setZone()`（0.25 / 0.6） | 250m / 600m |
 | 深度推进节奏 | `client.js` 的 `DROPS` | 4 个落点，每行 250m |
 | 气泡数量 | `splash.html` 的 `.sp-bubbles` | 28 颗 |
-| 收尾逐字节奏 | `.sp-endmark b` 的 `calc(8.55s + var(--i) * 85ms)` | 85ms/字 |
+| 收尾飞行节奏 | `.sp-endmark b` 的 `calc(8.47s + var(--i) * 48ms)`，飞行 600ms | 48ms/字 |
 | 时间码精度 | `paintHud()` 的百分秒位 | `T+00:03.40` |
 | 右缘刻度 | `.sp-rticks` 的两层 repeating-gradient | 主刻度 120px / 次刻度 24px |
 | 底部进度线 | `.sp-slug::after` 的 `scaleX(var(--pr))` | 随下潜从左到右 |

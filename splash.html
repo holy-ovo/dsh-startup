@@ -49,15 +49,31 @@
 /* 逐字浮现：每个字母 8.55s 起，按 --i 递增 85ms 错开 */
 #dsh-splash .sp-endmark b {
   display: inline-block; opacity: 0;
-  animation: endLetter 340ms cubic-bezier(.16, 1, .3, 1) both;
-  animation-delay: calc(8.55s + var(--i, 0) * 85ms);
-  will-change: transform, opacity;
+  animation: flyUp 600ms cubic-bezier(.18, .9, .22, 1) both;
+  animation-delay: calc(8.47s + var(--i, 0) * 48ms);
+  will-change: transform, opacity, filter;
+}
+/* 从底部 slug 的位置起飞：--dx/--dy/--s 由 client.js 按真实布局量出来 */
+@keyframes flyUp {
+  0% {
+    opacity: 0;
+    transform: translate(var(--dx, 0px), var(--dy, 0px)) scale(var(--s, .18));
+    filter: blur(3px);
+  }
+  14% { opacity: 1; }
+  55% {
+    opacity: 1;
+    transform: translate(calc(var(--dx, 0px) * .30 - 3.2vw), calc(var(--dy, 0px) * .34))
+               scale(calc(var(--s, .18) * .45 + .55));
+    filter: blur(1.3px);
+    /* 拖影：三圈向下的虚影，读作"刚从这里飞过去" */
+    text-shadow: 0 12px 16px rgba(214, 192, 150, .30),
+                 0 26px 24px rgba(214, 192, 150, .14),
+                 0 44px 34px rgba(214, 192, 150, .06);
+  }
+  100% { opacity: 1; transform: none; filter: blur(0); }
 }
 #dsh-splash .sp-endmark b.gap { width: .55em; }
-@keyframes endLetter {
-  from { opacity: 0; transform: translateY(7px); filter: blur(5px); }
-  to   { opacity: 1; transform: none;             filter: blur(0); }
-}
 #dsh-splash .sp-endmark small {
   display: block; margin-top: 18px;
   font: 500 clamp(9px, .72vw, 13px)/1 ui-monospace, Consolas, monospace;
@@ -80,6 +96,10 @@
 #dsh-splash.sp-cut .sp-mark,
 #dsh-splash.sp-cut .sp-sonar,
 #dsh-splash.sp-cut .sp-slug,
+#dsh-splash.sp-cut .sp-slug > * {
+  opacity: 0 !important;
+  transition: opacity 160ms linear;
+}
 #dsh-splash.sp-cut .sp-skip,
 #dsh-splash.sp-cut #dsh-sp-ruler {
   opacity: 0 !important;
@@ -602,6 +622,20 @@ html.dsh-splash-done #dsh-splash { display: none !important; }
   letter-spacing: .46em; color: rgba(200, 169, 106, .5);
 }
 #dsh-splash .sp-slug b { font-weight: 400; color: rgba(240, 232, 218, .5); }
+/* 收尾时底部接替的一行（原字飞上去之后） */
+#dsh-splash .sp-slug2 {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 7.4%; z-index: 8;
+  display: flex; align-items: center; justify-content: center;
+  font: 400 clamp(9px, 0.46vw, 11px)/1 ui-monospace, Consolas, monospace;
+  letter-spacing: .34em; text-indent: .34em;
+  color: rgba(200, 169, 106, .55);
+  opacity: 0; pointer-events: none;
+}
+#dsh-splash.sp-cut .sp-slug2 {
+  animation: slug2In 620ms cubic-bezier(.16, 1, .3, 1) 9.25s forwards;
+}
+@keyframes slug2In { from { opacity: 0; transform: translateY(3px); } to { opacity: 1; transform: none; } }
+
 /* 进度线：画在 slug 文字下方，随下潜从左往右长；--pr 由 client.js 写 */
 #dsh-splash .sp-slug::after {
   content: ''; position: absolute; left: 50%; bottom: 24%; width: min(26vw, 340px);
@@ -877,6 +911,7 @@ html.dsh-splash-done #dsh-splash { display: none !important; }
 
   <div class="sp-endmark"><b style="--i:0">D</b><b style="--i:1">E</b><b style="--i:2">E</b><b style="--i:3">P</b><b style="--i:4">S</b><b style="--i:5">E</b><b style="--i:6">E</b><b style="--i:7">K</b><b class="gap"></b><b style="--i:8">H</b><b style="--i:9">A</b><b style="--i:10">R</b><b style="--i:11">N</b><b style="--i:12">E</b><b style="--i:13">S</b><b style="--i:14">S</b><small>BOOT SEQUENCE · 001</small></div>
   <div class="sp-rticks"></div>
+  <div class="sp-slug2">LINK ESTABLISHED</div>
   <div class="sp-letterbox"><i></i><i></i></div>
   <div class="sp-slug"><b>DEEPSEEK HARNESS</b><span>·</span><span>BOOT SEQUENCE</span><span>·</span><b>001</b></div>
 
