@@ -366,6 +366,18 @@ html.dsh-splash-done #dsh-splash { display: none !important; }
 
 
 
+/* ── 右缘刻度（L2）：与左侧深度尺对称，只在画面边缘，不占中间 ────────
+   1 个 1px 宽的元素，用两层 repeating-linear-gradient 叠出主刻度与次刻度，
+   比放 18 个 div 便宜得多。透明度压到极低，只是"让边缘有东西"。 */
+#dsh-splash .sp-rticks {
+  position: absolute; right: 1.6vw; top: 13vh; bottom: 13vh; width: 1px; z-index: 3;
+  pointer-events: none; opacity: 0;
+  background:
+    repeating-linear-gradient(to bottom, rgba(158, 196, 230, .30) 0 1px, transparent 1px 120px),
+    repeating-linear-gradient(to bottom, rgba(158, 196, 230, .13) 0 1px, transparent 1px 24px);
+  animation: hudIn 1100ms ease 3.6s both;
+}
+
 /* ── 数据脊（L2 信息密度）：左栏底部的实时读数 ──────────────────────
    全部是等宽小字，靠左对齐成一列；数值用 tabular-nums 防跳动。
    它填的是"信息"而不是"特效"，所以位置压在最左下、颜色压到最暗。 */
@@ -590,6 +602,16 @@ html.dsh-splash-done #dsh-splash { display: none !important; }
   letter-spacing: .46em; color: rgba(200, 169, 106, .5);
 }
 #dsh-splash .sp-slug b { font-weight: 400; color: rgba(240, 232, 218, .5); }
+/* 进度线：画在 slug 文字下方，随下潜从左往右长；--pr 由 client.js 写 */
+#dsh-splash .sp-slug::after {
+  content: ''; position: absolute; left: 50%; bottom: 26%; width: min(23vw, 300px);
+  height: 1px; transform: translateX(-50%) scaleX(var(--pr, 0));
+  transform-origin: left center;
+  background: linear-gradient(90deg, rgba(200, 169, 106, .15), rgba(200, 169, 106, .75));
+}
+#dsh-splash .sp-slug { position: absolute; }
+
+
 
 /* 跳过：唯一的可点击区域，不依赖我们的脚本 */
 #dsh-splash .sp-skip {
@@ -841,6 +863,7 @@ html.dsh-splash-done #dsh-splash { display: none !important; }
   </div>
 
   <div class="sp-endmark"><b style="--i:0">D</b><b style="--i:1">E</b><b style="--i:2">E</b><b style="--i:3">P</b><b style="--i:4">S</b><b style="--i:5">E</b><b style="--i:6">E</b><b style="--i:7">K</b><b class="gap"></b><b style="--i:8">H</b><b style="--i:9">A</b><b style="--i:10">R</b><b style="--i:11">N</b><b style="--i:12">E</b><b style="--i:13">S</b><b style="--i:14">S</b><small>BOOT SEQUENCE · 001</small></div>
+  <div class="sp-rticks"></div>
   <div class="sp-letterbox"><i></i><i></i></div>
   <div class="sp-slug"><b>DEEPSEEK HARNESS</b><span>·</span><span>BOOT SEQUENCE</span><span>·</span><b>001</b></div>
 

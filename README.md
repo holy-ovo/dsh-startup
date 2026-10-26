@@ -221,6 +221,9 @@ export default {
 | 深度推进节奏 | `client.js` 的 `DROPS` | 4 个落点，每行 250m |
 | 气泡数量 | `splash.html` 的 `.sp-bubbles` | 28 颗 |
 | 收尾逐字节奏 | `.sp-endmark b` 的 `calc(8.55s + var(--i) * 85ms)` | 85ms/字 |
+| 时间码精度 | `paintHud()` 的百分秒位 | `T+00:03.40` |
+| 右缘刻度 | `.sp-rticks` 的两层 repeating-gradient | 主刻度 120px / 次刻度 24px |
+| 底部进度线 | `.sp-slug::after` 的 `scaleX(var(--pr))` | 随下潜从左到右 |
 | 数据脊读数 | `client.js` 的 `paintHud()` | 压力 = 深度×0.1 bar；温度 = 18 − 深度×0.014；约 11 次/秒 |
 | 鲸鱼线稿 | `splash.html` 的 `.sp-mark` | 19vw / 6% |
 

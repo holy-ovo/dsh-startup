@@ -108,6 +108,7 @@
   var hudTemp  = document.getElementById('dsh-sp-temp');
   var hudPing  = document.getElementById('dsh-sp-ping');
   var hudLast  = -999;
+  var slugEl   = document.querySelector('#dsh-splash .sp-slug');
 
   function pad2(n, w) {
     var s2 = String(n);
@@ -115,24 +116,25 @@
     return s2;
   }
 
-  function paintHud(ms, depthM) {
+  function paintHud(ms, depthM, pr0) {
     if (ms - hudLast < 90) { return; }   // 约 11 次/秒，够读又不浪费帧
     hudLast = ms;
     if (hudTc) {
       hudTc.textContent = pad2(Math.floor(ms / 60000), 2) + ':' +
                           pad2(Math.floor(ms / 1000) % 60, 2) + '.' +
-                          Math.floor((ms % 1000) / 100);
+                          pad2(Math.floor((ms % 1000) / 10), 2);
     }
     if (hudPress) { hudPress.textContent = (depthM / 10).toFixed(1); }
     if (hudTemp)  { hudTemp.textContent  = (18 - depthM * 0.014).toFixed(1); }
     if (hudPing)  { hudPing.textContent  = String(126 + Math.round((Math.sin(depthM * 0.7) + 1) * 3)); }
+    if (slugEl)   { slugEl.style.setProperty('--pr', pr0.toFixed(4)); }
   }
 
   function paint(pr, ms) {
     if (fill && box) fill.style.height = (pr * box.clientHeight).toFixed(1) + 'px';
     var depthM = pr * 1000;
     if (num) num.textContent = String(Math.round(depthM)).padStart(4, '0');
-    paintHud(ms, depthM);
+    paintHud(ms, depthM, pr);
     setZone(pr);
   }
 
