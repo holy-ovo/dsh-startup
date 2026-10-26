@@ -133,7 +133,7 @@ powershell -ExecutionPolicy Bypass -File .\install.ps1
 1. 打开客户端时**能看到深海下潜的开屏动画**；
 2. **设置 → 插件 → 已安装** 列表里有 `@klasjdfkl/dsh-startup 0.1.0`。
 
-开屏只在启动时出现一次，持续约 9.4 秒；右下角有「跳过」按钮。
+开屏只在启动时出现一次，持续约 11.1 秒；右下角有「跳过」按钮。
 
 ### 卸载
 
@@ -202,7 +202,7 @@ export default {
 三个刻意的设计：
 
 1. **必须发生的事全部由纯 CSS 完成。** 开屏的消失是一条 CSS 动画
-   （`@keyframes dsh-sp-hide`），脚本挂了、视频挂了，它照样在 9.4 秒后收掉。
+   （`@keyframes dsh-sp-hide`），脚本挂了、视频挂了，它照样在 11.1 秒后收掉。
    脚本只做增强。
 2. **每次渲染首页时重读 `splash.html` / `client.js`。** 改样式只要刷新页面，
    不用重启宿主（只有 `index.js` 的改动才需要重启）。
