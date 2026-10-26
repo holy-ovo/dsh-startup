@@ -604,10 +604,23 @@ html.dsh-splash-done #dsh-splash { display: none !important; }
 #dsh-splash .sp-slug b { font-weight: 400; color: rgba(240, 232, 218, .5); }
 /* 进度线：画在 slug 文字下方，随下潜从左往右长；--pr 由 client.js 写 */
 #dsh-splash .sp-slug::after {
-  content: ''; position: absolute; left: 50%; bottom: 26%; width: min(23vw, 300px);
-  height: 1px; transform: translateX(-50%) scaleX(var(--pr, 0));
+  content: ''; position: absolute; left: 50%; bottom: 24%; width: min(26vw, 340px);
+  height: 2px; border-radius: 1px;
+  transform: translateX(-50%) scaleX(var(--pr, 0));
   transform-origin: left center;
-  background: linear-gradient(90deg, rgba(200, 169, 106, .15), rgba(200, 169, 106, .75));
+  background: linear-gradient(90deg,
+    rgba(200, 169, 106, .22) 0%,
+    rgba(214, 186, 124, .72) 55%,
+    rgba(246, 232, 198, .96) 100%);
+  box-shadow: 0 0 10px rgba(200, 169, 106, .35);
+  will-change: transform;
+}
+/* 轨道底纹：让"还没走到的部分"也看得见，进度才有参照 */
+#dsh-splash .sp-slug::before {
+  content: ''; position: absolute; left: 50%; bottom: 24%;
+  width: min(26vw, 340px); height: 2px; border-radius: 1px;
+  transform: translateX(-50%);
+  background: rgba(200, 169, 106, .12);
 }
 #dsh-splash .sp-slug { position: absolute; }
 

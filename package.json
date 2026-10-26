@@ -1,6 +1,6 @@
 {
     "name":  "@klasjdfkl/dsh-startup",
-    "version":  "0.1.6",
+    "version":  "0.1.7",
     "description":  "DSH 启动开屏：深海下潜 · 深度尺与探测器 · 鲸鱼娘出场视频 · 珊瑚礁与微光粒子",
     "type":  "module",
     "main":  "index.js",
