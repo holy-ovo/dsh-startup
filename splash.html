@@ -569,7 +569,39 @@ html.dsh-splash-done #dsh-splash { display: none !important; }
   font-style: normal; width: 26px; height: 1px;
   background: rgba(150, 205, 235, .35);
 }
-#dsh-splash .sp-strata-1 { top: 38%; animation-delay: 2.0s; }
+/* ── 分层标签：只在"当前所在那一层"亮起来 ─────────────────────────
+   三层标签原本都是 .5 透明度，在 2K 屏上几乎看不见 —— 但它们是
+   "下潜到哪一层就出现哪一层的生物"这个概念的唯一说明，删掉就只剩特效。
+   所以改成：淡底 + 进入该层时点亮（颜色、辉光、短横线），离开就退回淡色。
+   只动 color / text-shadow / background，不碰 opacity，
+   避免和入场动画 spStrata 抢同一个属性。 */
+#dsh-splash .sp-strata {
+  /* 同一时刻只显示"当前所在那一层"的标签：压掉入场动画给的 opacity */
+  opacity: 0 !important;
+  transition: opacity 560ms ease, color 520ms ease, text-shadow 520ms ease;
+}
+#dsh-splash.zone1 .sp-strata-1,
+#dsh-splash.zone2 .sp-strata-2,
+#dsh-splash.zone3 .sp-strata-3 {
+  opacity: 1 !important;
+}
+#dsh-splash .sp-strata em {
+  transition: background-color 520ms ease, box-shadow 520ms ease;
+}
+#dsh-splash.zone1 .sp-strata-1,
+#dsh-splash.zone2 .sp-strata-2,
+#dsh-splash.zone3 .sp-strata-3 {
+  color: rgba(240, 246, 250, .95);
+  text-shadow: 0 0 18px rgba(150, 205, 235, .55);
+}
+#dsh-splash.zone1 .sp-strata-1 em,
+#dsh-splash.zone2 .sp-strata-2 em,
+#dsh-splash.zone3 .sp-strata-3 em {
+  background: rgba(226, 206, 160, .95);
+  box-shadow: 0 0 10px rgba(226, 206, 160, .55);
+}
+
+#dsh-splash .sp-strata-1 { top: 40.5%; animation-delay: 2.0s; }
 #dsh-splash .sp-strata-2 { top: 60%; animation-delay: 3.2s; }
 #dsh-splash .sp-strata-3 { top: 84%; animation-delay: 4.4s; }
 @keyframes spStrata { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: none; } }
