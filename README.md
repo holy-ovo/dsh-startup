@@ -219,7 +219,7 @@ export default {
 | 开屏时长 | `splash.html` 的 `animation: dsh-sp-hide 10.8s` | 10.8s |
 | 切到循环段的时刻 | `client.js` 的 `SWITCH_AT` | 2.55s |
 | 深度带阈值 | `client.js` 的 `setZone()`（0.25 / 0.6） | 250m / 600m |
-| 深度推进节奏 | `client.js` 的 `DROPS` | 四个落点 2.60/3.60/4.60/5.50s，深度总体 5.5s 到底 |
+| 深度推进节奏 | `client.js` 的 `DROPS` | 四段首尾相接（1000/1000/1000/900ms），1.6s 起潜、5.5s 到底 |
 | 落点反馈 | `.sp-impact` 的 `animation-delay` | 5500ms，一圈 1.05s 的冲击波 |
 | 气泡数量 | `splash.html` 的 `.sp-bubbles` | 28 颗 |
 | 收尾飞行节奏 | `.sp-endmark b` 的 `calc(8.47s + var(--i) * 48ms)`，飞行 600ms | 48ms/字 |
