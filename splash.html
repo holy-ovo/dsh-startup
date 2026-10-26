@@ -401,6 +401,33 @@ html.dsh-splash-done #dsh-splash { display: none !important; }
   animation: hudIn 1100ms ease 3.6s both;
 }
 
+/* ── 落点反馈：深度到顶（5500ms）那一下 ────────────────────────────
+   四段落点完成于 2220 / 3220 / 4220 / 5500ms，所以"到底"是 5.5 秒。
+   这一刻给三个协同的反馈：数字闪一下、探测器处一圈冲击波、尺底一道亮痕。
+   全部纯 CSS，一次性，不参与循环。 */
+#dsh-splash .sp-impact {
+  position: absolute; left: calc(4.4vw + 48px); top: 91vh; z-index: 4;
+  width: 12px; height: 12px; margin: -6px 0 0 -6px; border-radius: 50%;
+  pointer-events: none; opacity: 0; border: 1px solid rgba(230, 210, 166, .9);
+  box-shadow: 0 0 20px rgba(200, 169, 106, .6), inset 0 0 10px rgba(230, 210, 166, .45);
+  transform: scale(.2);
+  animation: spImpact 1050ms cubic-bezier(.16, .84, .3, 1) 5500ms both;
+}
+@keyframes spImpact {
+  0%   { opacity: 0;   transform: scale(.2); }
+  10%  { opacity: .95; }
+  100% { opacity: 0;   transform: scale(6.2); }
+}
+#dsh-splash #dsh-sp-depthnum {
+  display: inline-block;
+  animation: spDepthHit 760ms cubic-bezier(.2, .8, .3, 1) 5500ms both;
+}
+@keyframes spDepthHit {
+  0%   { transform: scale(1);    color: inherit; text-shadow: none; }
+  14%  { transform: scale(1.15); color: #fff8e8; text-shadow: 0 0 22px rgba(214, 186, 124, .85); }
+  100% { transform: scale(1);    color: inherit; text-shadow: none; }
+}
+
 /* ── 数据脊（L2 信息密度）：左栏底部的实时读数 ──────────────────────
    全部是等宽小字，靠左对齐成一列；数值用 tabular-nums 防跳动。
    它填的是"信息"而不是"特效"，所以位置压在最左下、颜色压到最暗。 */
@@ -914,6 +941,7 @@ html.dsh-splash-done #dsh-splash { display: none !important; }
 
   <div class="sp-endmark"><b style="--i:0">D</b><b style="--i:1">E</b><b style="--i:2">E</b><b style="--i:3">P</b><b style="--i:4">S</b><b style="--i:5">E</b><b style="--i:6">E</b><b style="--i:7">K</b><b class="gap"></b><b style="--i:8">H</b><b style="--i:9">A</b><b style="--i:10">R</b><b style="--i:11">N</b><b style="--i:12">E</b><b style="--i:13">S</b><b style="--i:14">S</b><small>BOOT SEQUENCE · 001</small></div>
   <div class="sp-rticks"></div>
+  <div class="sp-impact"></div>
   <div class="sp-slug2">LINK ESTABLISHED</div>
   <div class="sp-letterbox"><i></i><i></i></div>
   <div class="sp-slug"><b>DEEPSEEK HARNESS</b><span>·</span><span>BOOT SEQUENCE</span><span>·</span><b>001</b></div>

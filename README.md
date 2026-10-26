@@ -20,7 +20,7 @@
 2.55s 她的出场视频切到无缝循环段 —— 之后一直在动
 2.6s  第二行读数：相位锁定 · 采样率 96 kHz
 3.6s  第三行读数：全部就绪 · 开始下潜
-4.6s  深度走到 1000m，探测器停在尺底
+5.5s  深度走到 1000m：数字闪一下、尺底一圈冲击波（落点反馈）
 8.45s ★ 硬切：文字、尺、标签、鲸鱼线稿、声呐一帧消失
 8.47s 底部 DEEPSEEK HARNESS 逐个起飞（弧线 + 拖影 + 放大），落成大字标
 9.25s 底部补一行 LINK ESTABLISHED
@@ -219,7 +219,8 @@ export default {
 | 开屏时长 | `splash.html` 的 `animation: dsh-sp-hide 11.1s` | 11.1s |
 | 切到循环段的时刻 | `client.js` 的 `SWITCH_AT` | 2.55s |
 | 深度带阈值 | `client.js` 的 `setZone()`（0.25 / 0.6） | 250m / 600m |
-| 深度推进节奏 | `client.js` 的 `DROPS` | 4 个落点，每行 250m |
+| 深度推进节奏 | `client.js` 的 `DROPS` | 四个落点 2.60/3.60/4.60/5.50s，深度总体 5.5s 到底 |
+| 落点反馈 | `.sp-impact` 的 `animation-delay` | 5500ms，一圈 1.05s 的冲击波 |
 | 气泡数量 | `splash.html` 的 `.sp-bubbles` | 28 颗 |
 | 收尾飞行节奏 | `.sp-endmark b` 的 `calc(8.47s + var(--i) * 48ms)`，飞行 600ms | 48ms/字 |
 | 时间码精度 | `paintHud()` 的百分秒位 | `T+00:03.40` |
