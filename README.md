@@ -242,6 +242,16 @@ assets/           intro.webm（出场 4.04s）· idle.webm（循环 2.92s）
 改完 `splash.html` 或 `client.js` → 刷新页面即可看到。
 改 `index.js` → 需要重启宿主。
 
+### 发版
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\release.ps1
+```
+
+同步代码 → 升版本号 → 打包 tarball → 提交推送 → 建 GitHub Release。
+市场条目用 `releases/latest/download/` 指向 tarball，发版后自动跟随，不用改目录。
+先看会改什么就加 `-DryRun`。
+
 ## License
 
 MIT，见 [LICENSE](LICENSE)。第三方素材说明见 [NOTICE](NOTICE.md)。
