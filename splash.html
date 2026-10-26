@@ -49,29 +49,33 @@
 /* 逐字浮现：每个字母 8.55s 起，按 --i 递增 85ms 错开 */
 #dsh-splash .sp-endmark b {
   display: inline-block; opacity: 0;
-  animation: flyUp 600ms cubic-bezier(.18, .9, .22, 1) both;
+  animation: flyUp 620ms linear both;
   animation-delay: calc(8.47s + var(--i, 0) * 48ms);
   will-change: transform, opacity, filter;
 }
 /* 从底部 slug 的位置起飞：--dx/--dy/--s 由 client.js 按真实布局量出来 */
 @keyframes flyUp {
+  /* 分段的缓动必须"接力"：前段加速、后段减速，
+     否则中点速度归零，看起来就是飞到一半顿一下。 */
   0% {
     opacity: 0;
     transform: translate(var(--dx, 0px), var(--dy, 0px)) scale(var(--s, .18));
     filter: blur(3px);
+    animation-timing-function: cubic-bezier(.42, 0, .78, .45);   /* 起步：加速 */
   }
-  14% { opacity: 1; }
-  55% {
+  12% { opacity: 1; }
+  52% {
     opacity: 1;
-    transform: translate(calc(var(--dx, 0px) * .30 - 3.2vw), calc(var(--dy, 0px) * .34))
-               scale(calc(var(--s, .18) * .45 + .55));
-    filter: blur(1.3px);
-    /* 拖影：三圈向下的虚影，读作"刚从这里飞过去" */
+    transform: translate(calc(var(--dx, 0px) * .28 - 3.0vw), calc(var(--dy, 0px) * .30))
+               scale(calc(var(--s, .18) * .5 + .5));
+    filter: blur(1.2px);
     text-shadow: 0 12px 16px rgba(214, 192, 150, .30),
                  0 26px 24px rgba(214, 192, 150, .14),
                  0 44px 34px rgba(214, 192, 150, .06);
+    animation-timing-function: cubic-bezier(.15, .85, .35, 1);   /* 落地：减速 */
   }
   100% { opacity: 1; transform: none; filter: blur(0); }
+}
 }
 #dsh-splash .sp-endmark b.gap { width: .55em; }
 #dsh-splash .sp-endmark small {
