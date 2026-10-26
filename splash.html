@@ -26,6 +26,15 @@
   0%, 95.5% { opacity: 1; visibility: visible; }
   100%      { opacity: 0; visibility: hidden; }
 }
+/* 收尾第一步：左侧内容分批慢慢淡出（7.30s 起，1.0s）
+   用 CSS 动画而不是 JS 过渡：确定性更强，也不受合成层影响。
+   keyframes 只写 to，所以每个元素从自己的当前透明度开始降，鲸鱼线稿不会被提亮。 */
+#dsh-splash .sp-col   { animation: spLeftOut 1000ms cubic-bezier(.42, 0, .3, 1) 7.30s forwards; }
+#dsh-splash .sp-mark  { animation: spLeftOut 1000ms cubic-bezier(.42, 0, .3, 1) 7.36s forwards; }
+#dsh-splash .sp-depth { animation: spLeftOut 1000ms cubic-bezier(.42, 0, .3, 1) 7.42s forwards; }
+#dsh-splash #dsh-sp-ruler { animation: spLeftOut 1000ms cubic-bezier(.42, 0, .3, 1) 7.46s forwards; }
+@keyframes spLeftOut { to { opacity: 0; } }
+
 /* ── 收尾大字标：内容切掉的同时切进来，作为整段的落点 ────────────── */
 #dsh-splash .sp-endmark {
   position: absolute; left: 0; right: 26vw; top: 50%; z-index: 5;
