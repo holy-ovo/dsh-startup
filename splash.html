@@ -14,7 +14,7 @@
   background:
     radial-gradient(120% 90% at 72% 32%, rgba(22, 60, 104, .55) 0%, rgba(3, 8, 16, .98) 68%),
     linear-gradient(160deg, #061423 0%, #02060d 100%);
-  animation: dsh-sp-hide 11.1s ease forwards;
+  animation: dsh-sp-hide 10.8s ease forwards;
   overflow: hidden;
   contain: layout paint;
   --edge-top: 7.4%;
@@ -78,12 +78,12 @@
 }
 #dsh-splash .sp-endmark b.gap { width: 1.3em; }
 #dsh-splash .sp-endmark small {
-  display: block; margin-top: 18px;
+  display: block; margin-top: 28px;
   font: 500 clamp(9px, .72vw, 13px)/1 ui-monospace, Consolas, monospace;
   letter-spacing: .46em; text-indent: .46em;
   color: rgba(170, 196, 220, .5);
   opacity: 0;
-  animation: endSmall 520ms cubic-bezier(.16, 1, .3, 1) 9.95s both;
+  animation: endSmall 460ms cubic-bezier(.16, 1, .3, 1) 9.80s both;
 }
 @keyframes endSmall { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
 #dsh-splash.sp-cut .sp-endmark { opacity: 1; visibility: visible; }
