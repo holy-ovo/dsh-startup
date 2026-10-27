@@ -74,6 +74,12 @@
                  0 44px 34px rgba(214, 192, 150, .06);
     animation-timing-function: cubic-bezier(.15, .85, .35, 1);   /* 落地：减速 */
   }
+  /* 落位：停在终点位置的同一时刻亮一下，87ms 内衰减 —— 15 个字母错开 48ms，
+     连起来就是一束光从左扫到右，而不是每个字各闪各的。 */
+  86% {
+    opacity: 1; transform: none; filter: blur(0);
+    text-shadow: 0 0 22px rgba(246, 238, 214, .85), 0 0 58px rgba(200, 169, 106, .48);
+  }
   100% { opacity: 1; transform: none; filter: blur(0); }
 }
 #dsh-splash .sp-endmark b.gap { width: 1.3em; }
@@ -584,6 +590,12 @@ html.dsh-splash-done #dsh-splash { display: none !important; }
 #dsh-splash.zone2 .sp-strata-2,
 #dsh-splash.zone3 .sp-strata-3 {
   opacity: 1 !important;
+}
+/* 收尾之后一律不显示：zone 规则是同优先级且写在后面，
+   光靠 .sp-cut 的 opacity 压不住，这里用 visibility 兜底。 */
+#dsh-splash.sp-cut .sp-strata {
+  opacity: 0 !important;
+  visibility: hidden !important;
 }
 #dsh-splash .sp-strata em {
   transition: background-color 520ms ease, box-shadow 520ms ease;
