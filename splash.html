@@ -333,7 +333,13 @@ html.dsh-splash-done #dsh-splash { display: none !important; }
   font-weight: 600; line-height: 1.22;
   letter-spacing: .34em; color: #f4eee3;
   white-space: nowrap;
-  text-shadow: 0 4px 60px rgba(0, 0, 0, .65), 0 0 90px rgba(200, 169, 106, .12);
+  /* L3 霓虹：不铺扫描线（那是 CRT 味道，十年后看会旧）。
+     只在文字上做 1.2px 的冷/暖错位 —— 读作镜头色散，不是特效。 */
+  text-shadow:
+    0 4px 60px rgba(0, 0, 0, .65),
+    0 0 90px rgba(200, 169, 106, .12),
+    -2px 0 0 rgba(110, 200, 255, .34),
+     2px 0 0 rgba(255, 120, 160, .24);
   opacity: 0; filter: blur(14px);
   animation: spTitle 1200ms cubic-bezier(.16, 1, .3, 1) 1.0s forwards;
 }

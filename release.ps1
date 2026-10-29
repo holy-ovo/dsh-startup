@@ -30,9 +30,22 @@ param(
 # 所以这里用 Continue，并对每个外部命令显式检查 $LASTEXITCODE。
 $ErrorActionPreference = 'Continue'
 $env:Path = "$env:Path;C:\Program Files\GitHub CLI"
-$env:HTTPS_PROXY = 'http://127.0.0.1:7890'
-$env:HTTP_PROXY  = 'http://127.0.0.1:7890'
 $env:GIT_TERMINAL_PROMPT = '0'
+
+# 代理只在它真的在监听时才用；否则清空走直连。
+# 2026-10-28 就因为脚本里写死 7890，代理退出后整轮发布会莫名失败。
+$proxyPort = 7890
+$proxyUp = [bool](Get-NetTCPConnection -LocalPort $proxyPort -State Listen -ErrorAction SilentlyContinue)
+if ($proxyUp) {
+  $env:HTTPS_PROXY = "http://127.0.0.1:$proxyPort"
+  $env:HTTP_PROXY  = "http://127.0.0.1:$proxyPort"
+  Write-Host "网络：走代理 127.0.0.1:$proxyPort"
+} else {
+  Remove-Item Env:HTTPS_PROXY -ErrorAction SilentlyContinue
+  Remove-Item Env:HTTP_PROXY  -ErrorAction SilentlyContinue
+  git config --local --unset http.https://github.com.proxy 2>$null
+  Write-Host "网络：代理未监听，走直连"
+}
 
 $root   = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)   # …\DSH开屏动画制作方案
 $dev    = Join-Path $root '02-插件\dsh-startup'
