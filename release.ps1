@@ -43,7 +43,9 @@ if ($proxyUp) {
 } else {
   Remove-Item Env:HTTPS_PROXY -ErrorAction SilentlyContinue
   Remove-Item Env:HTTP_PROXY  -ErrorAction SilentlyContinue
-  git config --local --unset http.https://github.com.proxy 2>$null
+  # 注意：key 里有 "://"，必须加引号，否则 PowerShell 传参会被拆
+  git config --local --unset-all 'http.https://github.com.proxy' 2>$null
+  git config --local --unset-all 'http.proxy' 2>$null
   Write-Host "网络：代理未监听，走直连"
 }
 

@@ -341,11 +341,37 @@ html.dsh-splash-done #dsh-splash { display: none !important; }
     -2px 0 0 rgba(110, 200, 255, .34),
      2px 0 0 rgba(255, 120, 160, .24);
   opacity: 0; filter: blur(14px);
-  animation: spTitle 1200ms cubic-bezier(.16, 1, .3, 1) 1.0s forwards;
+  animation: spTitle 1200ms cubic-bezier(.16, 1, .3, 1) 1.0s forwards,
+             spTitleGlow 1700ms ease-out 1.10s both;
 }
 @keyframes spTitle {
   from { opacity: 0; filter: blur(14px); letter-spacing: .34em; }
   to   { opacity: 1; filter: blur(0);    letter-spacing: .08em; }
+}
+/* L3 霓虹：标题对焦完成的那一刻"点亮"一下 —— 辉光与色散先推过头再落回，
+   读作霓虹灯管通电，不是一直发亮。只动 text-shadow，不碰 spTitle 的属性。 */
+@keyframes spTitleGlow {
+  0% {
+    text-shadow:
+      0 4px 60px rgba(0, 0, 0, .65),
+      0 0 90px rgba(200, 169, 106, .06),
+      -2px 0 0 rgba(110, 200, 255, .10),
+       2px 0 0 rgba(255, 120, 160, .07);
+  }
+  42% {
+    text-shadow:
+      0 4px 60px rgba(0, 0, 0, .65),
+      0 0 140px rgba(226, 206, 160, .42),
+      -3.2px 0 0 rgba(110, 200, 255, .50),
+       3.2px 0 0 rgba(255, 120, 160, .38);
+  }
+  100% {
+    text-shadow:
+      0 4px 60px rgba(0, 0, 0, .65),
+      0 0 90px rgba(200, 169, 106, .12),
+      -2px 0 0 rgba(110, 200, 255, .34),
+       2px 0 0 rgba(255, 120, 160, .24);
+  }
 }
 #dsh-splash .sp-rule {
   margin: 34px 0 0; width: 190px; height: 1px;
