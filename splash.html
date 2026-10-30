@@ -427,18 +427,6 @@ html.dsh-splash-done #dsh-splash { display: none !important; }
 
 
 
-/* ── 右缘刻度（L2）：与左侧深度尺对称，只在画面边缘，不占中间 ────────
-   1 个 1px 宽的元素，用两层 repeating-linear-gradient 叠出主刻度与次刻度，
-   比放 18 个 div 便宜得多。透明度压到极低，只是"让边缘有东西"。 */
-#dsh-splash .sp-rticks {
-  position: absolute; right: 1.6vw; top: 13vh; bottom: 13vh; width: 1px; z-index: 3;
-  pointer-events: none; opacity: 0;
-  background:
-    repeating-linear-gradient(to bottom, rgba(158, 196, 230, .30) 0 1px, transparent 1px 120px),
-    repeating-linear-gradient(to bottom, rgba(158, 196, 230, .13) 0 1px, transparent 1px 24px);
-  animation: hudIn 1100ms ease 3.6s both;
-}
-
 /* ── 落点反馈：深度到顶（5500ms）那一下 ────────────────────────────
    四段落点完成于 2220 / 3220 / 4220 / 5500ms，所以"到底"是 5.5 秒。
    这一刻给三个协同的反馈：数字闪一下、探测器处一圈冲击波、尺底一道亮痕。
@@ -1016,7 +1004,6 @@ html.dsh-splash-done #dsh-splash { display: none !important; }
   </div>
 
   <div class="sp-endmark"><b style="--i:0">D</b><b style="--i:1">E</b><b style="--i:2">E</b><b style="--i:3">P</b><b style="--i:4">S</b><b style="--i:5">E</b><b style="--i:6">E</b><b style="--i:7">K</b><b class="gap"></b><b style="--i:8">H</b><b style="--i:9">A</b><b style="--i:10">R</b><b style="--i:11">N</b><b style="--i:12">E</b><b style="--i:13">S</b><b style="--i:14">S</b><small>BOOT SEQUENCE · 001</small></div>
-  <div class="sp-rticks"></div>
   <div class="sp-impact"></div>
   <div class="sp-slug2">LINK ESTABLISHED</div>
   <div class="sp-letterbox"><i></i><i></i></div>
