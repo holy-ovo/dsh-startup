@@ -402,9 +402,8 @@ html.dsh-splash-done #dsh-splash { display: none !important; }
   clip-path: inset(0 100% 0 0);
   animation: spStep 600ms steps(22, end) forwards;
 }
-#dsh-splash .sp-step:nth-child(1) { animation-delay: 1.6s; }
-#dsh-splash .sp-step:nth-child(2) { animation-delay: 2.6s; }
-#dsh-splash .sp-step:nth-child(3) { animation-delay: 3.6s; }
+/* 只保留一行，延后到 3.0s —— 它现在独占这一块，不需要和谁排队 */
+#dsh-splash .sp-step { animation-delay: 3.0s; }
 @keyframes spStep { to { opacity: 1; clip-path: inset(0 0 0 0); } }
 #dsh-splash .sp-step:last-child::after {
   content: ''; display: inline-block; vertical-align: -2px;
@@ -969,9 +968,7 @@ html.dsh-splash-done #dsh-splash { display: none !important; }
     <div class="sp-rule"></div>
     <div class="sp-sub">DEEPSEEK HARNESS</div>
     <div class="sp-steps">
-      <div class="sp-step">声呐阵列校准 · 波束 48 通道收敛</div>
-      <div class="sp-step">相位锁定 · 采样率 96 kHz</div>
-      <div class="sp-step">全部就绪 · 开始下潜</div>
+          <div class="sp-step">全部就绪 · 开始下潜</div>
     </div>
   </div>
 
