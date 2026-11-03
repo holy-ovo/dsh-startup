@@ -4,6 +4,8 @@
 
 ![dsh-startup 开屏](docs/hero.jpg)
 
+> 变更记录见 [CHANGELOG](CHANGELOG.md)。
+
 > A deep-sea dive splash screen for DeepSeek Harness — depth gauge, submersible probe, a character reveal video, seafloor relief, coral reef and bioluminescent particles. **Pure HTML/CSS/JS, no build step, no framework.**
 
 ---
